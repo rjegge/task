@@ -1,0 +1,45 @@
+<!-- File name: index.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do App</title>
+  
+  <link rel="stylesheet" href="/css/index.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/ui-btns.js" defer></script>
+  <script src="/js/ui-text.js" defer></script> 
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container mx-auto">
+    <h1 class="text-3xl text-center py-1">Task List</h1>
+    
+    <div class="jumbotron p-3 shadow-sm">
+      <div class="d-flex align-items-center">
+        <input autofocus autocomplete="off" id="newTask" class="form-control mr-3" type="text" style="flex: 1;" name="task" placeholder="Enter a new task...">
+        <!-- <button id="addNewTask" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button> -->
+      </div>
+    </div> 
+
+    <% if (!tasks.length) { %>
+      <p>Congratulations! All tasks completed. Add more above.</p>
+    <% } else { %>
+      <ul class="list-group pb-5">
+        <% tasks.forEach((task, index) => { %>
+          <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between" id="<%= task.idString %>">
+            <span class="item-text" contenteditable="true" data-old-task="<%= task.task %>"><%= task.task %></span>
+            <div>
+              <button class="delete-me bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded btn-sm">Delete</button>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+  
+</body>
+</html>

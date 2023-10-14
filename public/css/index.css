@@ -1,0 +1,4 @@
+[contenteditable]:focus {
+  outline: none;
+  border: none;
+}
