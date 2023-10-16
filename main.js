@@ -2,6 +2,7 @@
 
 // Required modules
 const path = require('path');
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const { connectDB } = require('./utils/connectDB'); // Import the connectDB function
@@ -25,13 +26,24 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cors());
 
 // GET route to render main page
 app.get('/', async (req, res) => {
-  const tasks = await Task.find({});
-  const tasksWithStringIds = tasks.map(task => ({ ...task._doc, idString: task._id.toString() }));
-  res.render('index', { tasks: tasksWithStringIds });
+  try {
+    let tasks = await Task.find({});
+    tasks = tasks.map(task => ({ ...task._doc, idString: task._id.toString() }));
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
+// app.get('/', async (req, res) => {
+//   const tasks = await Task.find({});
+//   const tasksWithStringIds = tasks.map(task => ({ ...task._doc, idString: task._id.toString() }));
+//   res.render('index', { tasks: tasksWithStringIds });
+// });
 
 // POST route to create a task
 app.post('/create-task', async (req, res) => {
